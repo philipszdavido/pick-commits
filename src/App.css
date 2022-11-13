@@ -154,3 +154,51 @@ input::before {
 .remove:hover {
   background: #037dd65e;
 }
+
+.username {
+  width: 137px;
+  text-align: left;
+}
+
+.commit {
+  width: 100px;
+  text-align: left;
+}
+
+.commitResultItem {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+}
+
+.commitUsername {
+  width: 150px;
+  overflow-wrap: anywhere;
+  padding: 7px 0;
+  text-align: left;
+}
+
+.commitCommit {
+  width: 150px;
+  overflow-wrap: anywhere;
+  padding: 7px;
+  text-align: left;
+}
+
+.noResult {
+  font-family: Euclid Circular B Bold;
+  padding-top: 10px;
+  font-size: large;
+}
+
+.resultHead {
+  display: flex;
+  border-bottom: 1px solid grey;
+  color: grey;
+}
+
+.resultContainer {
+  height: 336px;
+  overflow-y: auto;
+}
