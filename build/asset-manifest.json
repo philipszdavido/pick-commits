@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ead6629d.css",
+    "main.js": "/static/js/main.851f0998.js",
+    "static/js/787.6f435024.chunk.js": "/static/js/787.6f435024.chunk.js",
+    "static/media/Euclid-Circular-B-Regular.ttf": "/static/media/Euclid-Circular-B-Regular.4a3055af2b5d3eb95690.ttf",
+    "static/media/Euclid-Circular-B-SemiBold.ttf": "/static/media/Euclid-Circular-B-SemiBold.b55694b69b1287ed0f66.ttf",
+    "static/media/Euclid-Circular-B-Bold.ttf": "/static/media/Euclid-Circular-B-Bold.f9b0ae2872dea44f65c3.ttf",
+    "index.html": "/index.html",
+    "main.ead6629d.css.map": "/static/css/main.ead6629d.css.map",
+    "main.851f0998.js.map": "/static/js/main.851f0998.js.map",
+    "787.6f435024.chunk.js.map": "/static/js/787.6f435024.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ead6629d.css",
+    "static/js/main.851f0998.js"
+  ]
+}
