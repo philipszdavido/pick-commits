@@ -59,6 +59,7 @@ export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
           marginBottom: "20px",
         }}
         onClick={handleGenCmdFn}
+        disabled={commitResults?.length === 0 || !commitResults}
       >
         Get git cherry-pick command from commits
       </button>
