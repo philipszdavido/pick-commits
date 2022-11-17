@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DelIcon } from "./DelIcon";
+import Switch from "./Switch";
 
 export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
-  const [commitResults, setCommitsResult] = useState(commitResultsData);
+  const [commitResults, setCommitsResult] = useState([]);
+  const [showMergeCommit, setShowMergeCommit] = useState(false);
 
   const handleCopyFn = () => {
     navigator.clipboard
@@ -43,6 +45,22 @@ export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
       });
   };
 
+  const handleMergeCommitFn = () => {
+    setShowMergeCommit(!showMergeCommit);
+  };
+
+  useEffect(() => {
+    if (showMergeCommit) {
+      setCommitsResult([...commitResultsData]);
+    } else if (showMergeCommit === false) {
+      setCommitsResult(
+        commitResultsData.filter(
+          (commitResult) => commitResult.mergeCommit !== true
+        )
+      );
+    }
+  }, [showMergeCommit, commitResultsData]);
+
   return (
     <>
       <div className="buttonsContainer">
@@ -54,15 +72,39 @@ export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
           Copy
         </button>
       </div>
-      <button
+      <div
         style={{
-          marginBottom: "20px",
+          paddingBottom: "25px",
         }}
-        onClick={handleGenCmdFn}
-        disabled={commitResults?.length === 0 || !commitResults}
       >
-        Get git cherry-pick command from commits
-      </button>
+        <button
+          style={{
+            marginBottom: "20px",
+          }}
+          onClick={handleGenCmdFn}
+          disabled={commitResults?.length === 0 || !commitResults}
+        >
+          Get git cherry-pick command from commits
+        </button>
+
+        <a
+          style={{
+            display: "flex",
+            cursor: "pointer",
+            alignItems: "center",
+          }}
+          onClick={handleMergeCommitFn}
+        >
+          <Switch checked={showMergeCommit} />
+          <span
+            style={{
+              paddingLeft: "3px",
+            }}
+          >
+            Include Merge Commits
+          </span>
+        </a>
+      </div>
       <div
         style={{
           width: "100%",
@@ -77,10 +119,21 @@ export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
           {(!commitResults || commitResults?.length === 0) && (
             <div className="noResult">No results to display</div>
           )}
-          {commitResults?.map(({ commit, userName }, index) => (
+          {commitResults?.map(({ commit, userName, mergeCommit }, index) => (
             <div className="commitResultItem">
               <span className="commitUsername">{userName}</span>
-              <span className="commitCommit">{commit}</span>
+              <span className="commitCommit">
+                <span>{commit}</span>
+
+                {mergeCommit === true && (
+                  <span
+                    class="aui-lozenge merge-lozenge abbreviated"
+                    title="This commit is a merge."
+                  >
+                    M
+                  </span>
+                )}
+              </span>
               <a className="remove" onClick={() => handleRemoveFn(index)}>
                 <DelIcon />
               </a>

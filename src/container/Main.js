@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { ShowCommits } from "../components/ShowCommits";
 import { PickCommit } from "../components/PickCommit";
+import Settings from "../components/Settings";
 
-export const Main = () => {
+export const Main = ({ showSettingsPage }) => {
   const [loading, setLoading] = useState(false);
   const [commitResults, setCommitsResult] = useState(null);
   const [author, setAuthor] = useState();
@@ -41,20 +42,12 @@ export const Main = () => {
     setCommitsResult(results);
   };
 
-  const handleOnChangeFn = (evt) => {
-    setAuthor(evt.target.value);
-  };
+  const handleOnChangeFn = (evt) => setAuthor(evt.target.value);
 
-  const handleKeyUpFn = (evt) => {
-    const { key, keyCode } = evt;
-    if (key === "Enter" && keyCode === 13) {
-      handleSearchFn();
-    }
-  };
+  const handleKeyUpFn = ({ key, keyCode }) =>
+    key === "Enter" && keyCode === 13 && handleSearchFn();
 
-  const goBack = () => {
-    setCommitsResult(null);
-  };
+  const goBack = () => setCommitsResult(null);
 
   const alertFn = (msg, type) => {
     setAlert({
@@ -98,6 +91,7 @@ export const Main = () => {
             commitResultsData={commitResults}
           />
         )}
+        {showSettingsPage && <Settings />}
       </div>
     </main>
   );

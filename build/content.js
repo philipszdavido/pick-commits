@@ -1,5 +1,5 @@
 const messagesFromReactAppListener = (message, sender, response) => {
-  const searchBody = (body, searchToken = "") => {
+  const searchBody = (body, searchToken = "", includeMergeCommit = true) => {
     // break the token
     const searchTokens = searchToken
       .split(",")
@@ -13,10 +13,11 @@ const messagesFromReactAppListener = (message, sender, response) => {
       // iterate through table rows.
       for (const row of tableRows) {
         // Discard row that has class 'merge'
-        if (
+        const isNotMergeCommit =
           row.getAttribute("class") !== "merge" &&
-          row.getAttribute("class").split(" ").includes("merge") === false
-        ) {
+          row.getAttribute("class").split(" ").includes("merge") === false;
+
+        if (/*includeMergeCommit || isNotMergeCommit*/ true) {
           const tdAuthor = row.getElementsByClassName("author")[0];
 
           // const userName = tdAuthor.getElementsByClassName("user-name")[0].textContent
@@ -37,6 +38,7 @@ const messagesFromReactAppListener = (message, sender, response) => {
             results.push({
               userName,
               commit,
+              mergeCommit: !isNotMergeCommit,
             });
           }
         }
