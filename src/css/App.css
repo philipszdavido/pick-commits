@@ -3,6 +3,22 @@
   --color-primary-inverse: #fcfcfc;
   --alert-success: #03d671;
   --alert-danger: rgba(178, 128, 128, 0.846);
+  --background: white;
+  --text-color: black;
+}
+
+[data-theme="dark"] {
+  --color-primary-default: #037dd6;
+  --color-primary-inverse: #fcfcfc;
+  --alert-success: #03d671;
+  --alert-danger: rgba(178, 128, 128, 0.846);
+  --background: #161625;
+  --text-color: white;
+}
+
+html {
+  background: var(--background);
+  color: var(--text-color);
 }
 
 .App {
@@ -41,6 +57,7 @@ main {
   display: flex;
   flex-direction: column;
   height: 60vh;
+  background: var(--background);
 }
 
 .container {
@@ -91,7 +108,7 @@ input {
 
   font: inherit;
   font-size: large;
-  color: currentColor;
+  color: var(--text-color);
   width: 100%;
   border: 0;
   height: 1.1876em;
@@ -252,6 +269,7 @@ ul li {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  color: var(--text-color);
 }
 
 ul li:nth-child(1) {
@@ -267,4 +285,8 @@ ul li a {
 .mergeCommitText {
   display: flex;
   align-items: center;
+}
+
+.delIcon {
+  fill: var(--text-color);
 }

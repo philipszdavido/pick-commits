@@ -3,6 +3,7 @@ import { ShowCommits } from "../components/ShowCommits";
 import { PickCommit } from "../components/PickCommit";
 import Settings from "../components/Settings";
 import SettingsIcon from "../components/SettingsIcon";
+import { getSettings, setThemeMode } from "../utils";
 
 export const Main = () => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,9 @@ export const Main = () => {
   const [pageIndex, setPageIndex] = useState(["pickcommits"]);
   const currentPage = pageIndex[pageIndex.length - 1];
   const interval = useRef();
+  const settings = getSettings();
+  // set theme mode
+  setThemeMode(settings?.mode);
 
   const handleSearchFn = () => {
     setLoading(true);

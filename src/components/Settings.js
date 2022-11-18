@@ -18,6 +18,20 @@ const Settings = ({ goBack }) => {
     setSettingKeys(Object.keys(localStorageSettings));
   };
 
+  const toggleDarkModeFn = () => {
+    localStorageSettings["mode"] =
+      localStorageSettings?.mode === "dark" ? "white" : "dark";
+    localStorage.setItem("settings", JSON.stringify(localStorageSettings));
+
+    setLocalStorageSettings(localStorageSettings);
+    setSettingKeys(Object.keys(localStorageSettings));
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      localStorageSettings["mode"]
+    );
+  };
+
   return (
     <>
       <div className="buttonsContainer">
@@ -35,6 +49,15 @@ const Settings = ({ goBack }) => {
             />
           </a>
         </li>
+        <li onClick={toggleDarkModeFn}>
+          <a>
+            <span className="mergeCommitText">Dark Theme</span>
+            <Switch
+              onChange={toggleDarkModeFn}
+              checked={localStorageSettings?.[settingKeys?.[1]] === "dark"}
+            />
+          </a>
+        </li>
       </ul>
     </>
   );
@@ -45,7 +68,7 @@ const getLocalStorageSettings = () => {
 
   if (local === null) {
     // init localstorage settings.
-    const settings = { mergeCommit: false };
+    const settings = { mergeCommit: false, mode: "white" };
     localStorage.setItem("settings", JSON.stringify(settings));
     local = settings;
   }
