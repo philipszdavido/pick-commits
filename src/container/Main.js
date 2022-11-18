@@ -34,6 +34,17 @@ export const Main = () => {
       currentWindow: true,
     };
 
+    // let results = [
+    //   {
+    //     commit: 9087,
+    //     userName: "nnamdi",
+    //     mergeCommit: true,
+    //   },
+    // ];
+    // setLoading(false);
+    // setCommitsResult(results);
+    // moveForward("showcommits");
+
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
         const currentTabId = tabs[0].id;

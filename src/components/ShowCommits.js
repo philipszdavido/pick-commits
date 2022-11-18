@@ -7,7 +7,7 @@ export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
   const settings = getSettings();
   const [commitResults, setCommitsResult] = useState([]);
   const [showMergeCommit, setShowMergeCommit] = useState(
-    settings.mergeCommit || false
+    settings?.mergeCommit || false
   );
 
   const handleCopyFn = () => {
