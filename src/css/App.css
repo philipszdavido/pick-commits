@@ -5,6 +5,9 @@
   --alert-danger: rgba(178, 128, 128, 0.846);
   --background: white;
   --text-color: black;
+
+  --lozenge-bg: #42526e;
+  --lozenge-color: #fff;
 }
 
 [data-theme="dark"] {
@@ -14,6 +17,9 @@
   --alert-danger: rgba(178, 128, 128, 0.846);
   --background: #161625;
   --text-color: white;
+
+  --lozenge-bg: #fff;
+  --lozenge-color: #42526e;
 }
 
 html {
@@ -238,10 +244,12 @@ input[type="checkbox"]:checked {
 }
 
 .aui-lozenge {
-  background: #42526e;
+  /* background: #42526e; */
+  background: var(--lozenge-bg);
   border: 0;
   border-radius: 3px;
-  color: #fff;
+  /* color: #fff; */
+  color: var(--lozenge-color);
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
