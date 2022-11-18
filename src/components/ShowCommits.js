@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { getSettings } from "../utils";
 import { DelIcon } from "./DelIcon";
 import Switch from "./Switch";
 
 export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
+  const settings = getSettings();
   const [commitResults, setCommitsResult] = useState([]);
-  const [showMergeCommit, setShowMergeCommit] = useState(false);
+  const [showMergeCommit, setShowMergeCommit] = useState(
+    settings.mergeCommit || false
+  );
 
   const handleCopyFn = () => {
     navigator.clipboard
@@ -95,7 +99,7 @@ export const ShowCommits = ({ commitResultsData = [], goBack, alertFn }) => {
           }}
           onClick={handleMergeCommitFn}
         >
-          <Switch checked={showMergeCommit} />
+          <Switch onChange={setShowMergeCommit} checked={showMergeCommit} />
           <span
             style={{
               paddingLeft: "3px",

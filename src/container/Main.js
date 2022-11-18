@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { ShowCommits } from "../components/ShowCommits";
 import { PickCommit } from "../components/PickCommit";
 import Settings from "../components/Settings";
+import SettingsIcon from "../components/SettingsIcon";
 
-export const Main = ({ showSettingsPage }) => {
+export const Main = () => {
   const [loading, setLoading] = useState(false);
   const [commitResults, setCommitsResult] = useState(null);
   const [author, setAuthor] = useState();
@@ -12,7 +13,8 @@ export const Main = ({ showSettingsPage }) => {
     type: "",
     show: false,
   });
-
+  const [pageIndex, setPageIndex] = useState(["pickcommits"]);
+  const currentPage = pageIndex[pageIndex.length - 1];
   const interval = useRef();
 
   const handleSearchFn = () => {
@@ -40,6 +42,7 @@ export const Main = ({ showSettingsPage }) => {
   const getResponse = (results) => {
     setLoading(false);
     setCommitsResult(results);
+    moveForward("showcommits");
   };
 
   const handleOnChangeFn = (evt) => setAuthor(evt.target.value);
@@ -47,7 +50,10 @@ export const Main = ({ showSettingsPage }) => {
   const handleKeyUpFn = ({ key, keyCode }) =>
     key === "Enter" && keyCode === 13 && handleSearchFn();
 
-  const goBack = () => setCommitsResult(null);
+  const goBack = () => {
+    setCommitsResult(null);
+    moveBack();
+  };
 
   const alertFn = (msg, type) => {
     setAlert({
@@ -65,34 +71,60 @@ export const Main = ({ showSettingsPage }) => {
     }, 2000);
   };
 
+  const goBackSettingsFn = () => moveBack();
+
   useEffect(() => {
     if (alert.show === false) {
       clearTimeout(interval.current);
     }
   }, [alert]);
 
+  const handleSettingsPageFn = () => {
+    moveForward("settings");
+  };
+
+  const moveForward = (page) => {
+    setPageIndex((prevPageIndexes) => [...prevPageIndexes, page]);
+  };
+
+  const moveBack = () => {
+    // pop out the last in pageIndex
+    const currentPageIndex = [...pageIndex];
+    currentPageIndex.pop();
+    setPageIndex(currentPageIndex);
+  };
+
   return (
-    <main>
-      <div className="container">
-        {alert.show && (
-          <span className={`alert alert-${alert.type}`}>{alert.message}</span>
-        )}
-        <PickCommit
-          commitResults={commitResults}
-          handleOnChangeFn={handleOnChangeFn}
-          handleKeyUpFn={handleKeyUpFn}
-          handleSearchFn={handleSearchFn}
-          loading={loading}
-        />
-        {commitResults !== null && (
-          <ShowCommits
-            alertFn={alertFn}
-            goBack={goBack}
-            commitResultsData={commitResults}
-          />
-        )}
-        {showSettingsPage && <Settings />}
-      </div>
-    </main>
+    <>
+      <header className="App-header">
+        <span>Pick Commits</span>
+        <span onClick={handleSettingsPageFn} className="header-settings">
+          <SettingsIcon />
+        </span>
+      </header>
+      <main>
+        <div className="container">
+          {alert.show && (
+            <span className={`alert alert-${alert.type}`}>{alert.message}</span>
+          )}
+          {currentPage === "pickcommits" && (
+            <PickCommit
+              handleOnChangeFn={handleOnChangeFn}
+              handleKeyUpFn={handleKeyUpFn}
+              handleSearchFn={handleSearchFn}
+              loading={loading}
+            />
+          )}
+          {currentPage === "showcommits" /*&& commitResults !== null*/ && (
+            <ShowCommits
+              alertFn={alertFn}
+              goBack={goBack}
+              commitResultsData={commitResults}
+            />
+          )}
+          {currentPage === "settings" && <Settings goBack={goBackSettingsFn} />}
+        </div>
+      </main>
+    </>
   );
 };

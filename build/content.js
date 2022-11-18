@@ -1,5 +1,5 @@
 const messagesFromReactAppListener = (message, sender, response) => {
-  const searchBody = (body, searchToken = "", includeMergeCommit = true) => {
+  const searchBody = (body, searchToken = "") => {
     // break the token
     const searchTokens = searchToken
       .split(",")
@@ -12,35 +12,28 @@ const messagesFromReactAppListener = (message, sender, response) => {
 
       // iterate through table rows.
       for (const row of tableRows) {
-        // Discard row that has class 'merge'
+        // Check row that has class 'merge'
         const isNotMergeCommit =
           row.getAttribute("class") !== "merge" &&
           row.getAttribute("class").split(" ").includes("merge") === false;
 
-        if (/*includeMergeCommit || isNotMergeCommit*/ true) {
-          const tdAuthor = row.getElementsByClassName("author")[0];
+        const tdAuthor = row.getElementsByClassName("author")[0];
+        const userName = tdAuthor.innerText;
 
-          // const userName = tdAuthor.getElementsByClassName("user-name")[0].textContent
-          const userName = tdAuthor.innerText;
-
-          // check if the author is the commit author
-          const match = patternMatch(
-            searchTokens,
-            userName.trim().toLowerCase()
-          );
-          if (match) {
-            const tdCommit = row.getElementsByClassName("commit")[0];
-            const href = tdCommit
-              .getElementsByTagName("a")[0]
-              .getAttribute("href");
-            const hrefParts = href.split("/");
-            const commit = hrefParts[hrefParts.length - 1];
-            results.push({
-              userName,
-              commit,
-              mergeCommit: !isNotMergeCommit,
-            });
-          }
+        // check if the author is the commit author
+        const match = patternMatch(searchTokens, userName.trim().toLowerCase());
+        if (match) {
+          const tdCommit = row.getElementsByClassName("commit")[0];
+          const href = tdCommit
+            .getElementsByTagName("a")[0]
+            .getAttribute("href");
+          const hrefParts = href.split("/");
+          const commit = hrefParts[hrefParts.length - 1];
+          results.push({
+            userName,
+            commit,
+            mergeCommit: !isNotMergeCommit,
+          });
         }
       }
       return results;

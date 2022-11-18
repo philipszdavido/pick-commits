@@ -1,7 +1,7 @@
-const Switch = ({ checked }) => {
+const Switch = ({ checked, onChange }) => {
   return (
     <label class="switch">
-      <input checked={checked} type="checkbox" />
+      <input onChange={onChange} checked={checked} type="checkbox" />
       <span class="slider round"></span>
     </label>
   );
